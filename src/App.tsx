@@ -1,7 +1,7 @@
 import React, {Suspense} from "react";
 import "bootstrap/dist/css/bootstrap.min.css";
 import "./styles/App.css";
-import {BrowserRouter, Routes} from "react-router-dom";
+import {HashRouter, Routes} from "react-router-dom";
 import {Route} from "react-router";
 import {Container, Row} from "react-bootstrap";
 import ReactLoading from "react-loading";
@@ -13,7 +13,7 @@ const BeerItemPage = React.lazy(() => import('./components/BeerItemPage'))
 function App() {
 
     return (
-        <BrowserRouter>
+        <HashRouter>
             <Routes>
                 <Route path={'/'} element={<HomePage></HomePage>}></Route>
 
@@ -38,7 +38,7 @@ function App() {
                     }><BeerItemPage></BeerItemPage></Suspense>
                 }></Route>
             </Routes>
-        </BrowserRouter>
+        </HashRouter>
 
     );
 }
