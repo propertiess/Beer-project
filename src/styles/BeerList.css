@@ -1,0 +1,19 @@
+.nothing-enter {
+    opacity: 0;
+    transform: translate(-30px,0);
+}
+.nothing-enter-active {
+    opacity: 1;
+    transform: translate(0,0);
+    transition: opacity 300ms ease, transform 300ms ease;
+
+}
+.nothing-exit {
+    opacity: 1;
+}
+.nothing-exit-active {
+    opacity: 0;
+    transform: translate(-30px,0);
+    transition: opacity 300ms ease, transform 300ms ease;
+
+}

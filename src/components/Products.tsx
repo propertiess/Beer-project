@@ -1,4 +1,4 @@
-import React, {Suspense, useEffect, useMemo, useState} from 'react';
+import React, {useEffect, useMemo, useState} from 'react';
 import {Col, Container, Form, Navbar, Row} from "react-bootstrap";
 import Pagination from 'react-bootstrap/Pagination';
 import {IBeer} from "../types/types";
@@ -7,13 +7,14 @@ import {getPagesArray} from "../utils/page";
 import ReactLoading from 'react-loading';
 import {useNavigate, useParams} from "react-router-dom";
 import NavRouter from "./NavRouter";
+import BeerList from "./BeerList";
 
-const BeerList = React.lazy(() => import("./BeerList"));
 
 type Products = {
     id: string;
 }
 const HomePage = () => {
+
     const [beers, setBeers] = useState<IBeer[]>([]);
     const [totalPages, setTotalPages] = useState<number>(0);
     const limit = 9;
@@ -32,23 +33,24 @@ const HomePage = () => {
     }
 
     const getBeers = async () => {
-        setIsBeersLoading(true);
         try {
+            await setIsBeersLoading(true);
             if(Number(params.id) > 9) {
                 navigate('/beers/page/9');
                 changePage(9);
                 const res = await axios.get<IBeer[]>(`https://api.punkapi.com/v2/beers?page=9&per_page=${limit}`);
                 setBeers(res.data);
+                await setIsBeersLoading(false);
                 return;
             }
             const res = await axios.get<IBeer[]>(`https://api.punkapi.com/v2/beers?page=${params.id}&per_page=${limit}`);
             setBeers(res.data);
             setPage(Number(params.id));
             setTotalPages(9);
+            await setIsBeersLoading(false);
         } catch (e) {
             console.log(e);
         }
-        setIsBeersLoading(false);
 
     }
     useEffect(() => {
@@ -87,21 +89,15 @@ const HomePage = () => {
 
                 <main>
                     <Container>
-                        <Suspense fallback={
-                            <Container>
+                        {isBeersLoading
+                        ? (<Container>
                                 <Row className={'justify-content-center text-center'}>
                                     <ReactLoading color={'blue'}></ReactLoading>
                                     <h2>Загрузка</h2>
                                 </Row>
-                            </Container>
-
-                        }>
-                            <BeerList isBeersLoading={isBeersLoading} beers={filteredBeers}></BeerList>
-
-
-
-
-                        </Suspense>
+                            </Container>)
+                        : <BeerList isBeersLoading={isBeersLoading} search={search} beers={filteredBeers}></BeerList>
+                        }
                     </Container>
                 </main>
 
