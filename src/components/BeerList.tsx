@@ -32,7 +32,7 @@ const BeerList = ({beers, isBeersLoading, search}: IBeerListProps) => {
     return (
         <Row className={'flex-wrap gap-5 justify-content-center mb-5 position-relative'}>
             <CSSTransition in={nothing} timeout={300} classNames={'nothing'} mountOnEnter unmountOnExit>
-                <Container className={'position-absolute'}>
+                <Container className={'position-absolute nothing-item'}>
                     <Row>
                     <h2>Ничего не найдено</h2>
                 </Row></Container>

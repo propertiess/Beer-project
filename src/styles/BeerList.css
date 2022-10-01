@@ -17,3 +17,7 @@
     transition: opacity 300ms ease, transform 300ms ease;
 
 }
+.nothing-item {
+    top: 0;
+    left: 0;
+}
